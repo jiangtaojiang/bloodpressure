@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<Workspace>
+  <ConfigDictionary>
+    
+  <CurrentConfigs><Project>XY/Debug</Project></CurrentConfigs></ConfigDictionary>
+  <Desktop>
+    <Static>
+      <Workspace>
+        <ColumnWidths>
+          
+          
+          
+          
+        <Column0>220</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+      </Workspace>
+      <Build>
+        
+        
+        
+        
+      <ColumnWidth0>26</ColumnWidth0><ColumnWidth1>713</ColumnWidth1><ColumnWidth2>490</ColumnWidth2><ColumnWidth3>64</ColumnWidth3></Build>
+      <Find-in-Files>
+        
+        
+        
+      <ColumnWidth0>468</ColumnWidth0><ColumnWidth1>66</ColumnWidth1><ColumnWidth2>802</ColumnWidth2></Find-in-Files>
+      <TerminalIO/>
+    <Debug-Log><ColumnWidth0>26</ColumnWidth0><ColumnWidth1>1295</ColumnWidth1></Debug-Log></Static>
+    <Windows>
+      
+      
+    <Wnd0>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-9439-12539</Identity>
+            <TabName>Workspace</TabName>
+            <Factory>Workspace</Factory>
+            <Session>
+              
+            <NodeDict><ExpandedNode>XY</ExpandedNode><ExpandedNode>XY/ADC</ExpandedNode><ExpandedNode>XY/CMSIS</ExpandedNode><ExpandedNode>XY/User</ExpandedNode></NodeDict></Session>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-4881-15285</Identity>
+            <TabName>Build</TabName>
+            <Factory>Build</Factory>
+            <Session/>
+          </Tab>
+          <Tab>
+            <Identity>TabID-24267-28841</Identity>
+            <TabName>Find in Files</TabName>
+            <Factory>Find-in-Files</Factory>
+            <Session/>
+          </Tab>
+        <Tab><Identity>TabID-25511-21780</Identity><TabName>Debug Log</TabName><Factory>Debug-Log</Factory><Session/></Tab></Tabs>
+        
+      <SelectedTab>1</SelectedTab></Wnd1></Windows>
+    <Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>C:\Users\Administrator\Desktop\XY_V1.0.0.1\XY_V1.0.0.1\User\main.c</Filename><XPos>0</XPos><YPos>43</YPos><SelStart>2957</SelStart><SelEnd>2957</SelEnd></Tab><ActiveTab>0</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\Administrator\Desktop\XY_V1.0.0.1\XY_V1.0.0.1\User\RCC_config.c</Filename><XPos>0</XPos><YPos>273</YPos><SelStart>2244</SelStart><SelEnd>2244</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\Administrator\Desktop\XY_V1.0.0.1\XY_V1.0.0.1\ADC\Stm32_ADC.c</Filename><XPos>0</XPos><YPos>129</YPos><SelStart>5757</SelStart><SelEnd>5757</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\Administrator\Desktop\XY_V1.0.0.1\XY_V1.0.0.1\ADC\Stm32_ADC.h</Filename><XPos>0</XPos><YPos>15</YPos><SelStart>1123</SelStart><SelEnd>1123</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\Administrator\Desktop\XY_V1.0.0.1\XY_V1.0.0.1\TFT\GuiData.c</Filename><XPos>0</XPos><YPos>402</YPos><SelStart>10703</SelStart><SelEnd>10703</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\Administrator\Desktop\XY_V1.0.0.1\XY_V1.0.0.1\Libraries\inc\stm32f10x_adc.h</Filename><XPos>0</XPos><YPos>201</YPos><SelStart>10650</SelStart><SelEnd>10650</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\Administrator\Desktop\XY_V1.0.0.1\XY_V1.0.0.1\Libraries\inc\stm32f10x_rcc.h</Filename><XPos>0</XPos><YPos>663</YPos><SelStart>28153</SelStart><SelEnd>28153</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\Administrator\Desktop\XY_V1.0.0.1\XY_V1.0.0.1\Libraries\src\stm32f10x_rcc.c</Filename><XPos>0</XPos><YPos>794</YPos><SelStart>26805</SelStart><SelEnd>26805</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Positions>
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-01282c38><key>iaridepm.enu1</key></Toolbar-01282c38></Sizes></Row0></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>434</Bottom><Right>294</Right><x>-2</x><y>-2</y><xscreen>214</xscreen><yscreen>195</yscreen><sizeHorzCX>201128</sizeHorzCX><sizeHorzCY>275035</sizeHorzCY><sizeVertCX>278195</sizeVertCX><sizeVertCY>614951</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>230</Bottom><Right>1066</Right><x>-2</x><y>-2</y><xscreen>1068</xscreen><yscreen>232</yscreen><sizeHorzCX>1003759</sizeHorzCX><sizeHorzCY>327221</sizeHorzCY><sizeVertCX>201128</sizeVertCX><sizeVertCY>275035</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+  </Desktop>
+</Workspace>
+
+
