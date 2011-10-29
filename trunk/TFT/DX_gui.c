@@ -2,9 +2,9 @@
 #include "stm32f10x_conf.h"
 #include "GuiDef.h"
 #include "TFTdriver.h"
+#include "TFTHal.h"
 #include "DX_GUI.h"
 #include "WIDGET.h"
-#include "hal.h"
 #include "touch.h"
 extern void Lcd_Init(void);
 
@@ -12,6 +12,7 @@ extern void Lcd_Init(void);
 void GuiInit(void)
 {
 	BLIGHT_ON;
+//    BLIGHT_OFF;
 	Lcd_Init();
 }
 

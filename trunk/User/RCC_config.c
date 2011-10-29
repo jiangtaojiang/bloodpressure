@@ -12,8 +12,8 @@
 #include "RCC_config.h"
 #include "usart.h"
 #include "RTC.h"
-#include "hal.h"
 #include "25f.h"
+#include "24c256.h"
 #include "Stm32_ADC.h"
 #include "Stm_Pwm.h"
 #include "TFTHal.h"
@@ -34,15 +34,14 @@ void system_init(void)
     Tim_Init();          //定时器
     RTC_Config();        //RTC配置
     Systick_Configuration();	
-	FLASH_SPI_Config(); //初始化SST25VF080
+//	FLASH_SPI_Config(); //初始化SST25VF080
+    Spi2TurnToSST25();
     Adc_Init();     //ADC init	
-	TFT_Config();   //初始化TFT
+//	TFT_Config();   //初始化TFT
     PWM_Init();
+    iic_init();
 //    Lcd_Configuration(); //lcd io配置
 //    PVD_config();
-//    Adc_Init();
-//    LCD_Init();
-    //DMA_Configuration();
 }
 /*******************************************************************************
 * Function Name  : RCC_Periph
@@ -58,10 +57,10 @@ void GPIO_Clock_config(void)
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOE, ENABLE);
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOF, ENABLE);
+//    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOF, ENABLE);
 //    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOG, ENABLE);
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR,ENABLE);
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1,ENABLE);
+//    RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1,ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1  | RCC_APB2Periph_AFIO,ENABLE);
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
 }
@@ -102,60 +101,31 @@ void GPIO_Configuration(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;	
 	
-	/*Configure LED pins:PB.8 PB.9 PA.11 PA.12,PB.5:SD_PWR*/
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5|GPIO_Pin_8|GPIO_Pin_9;
+	/* PA.0 key*/
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);	
-	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11|GPIO_Pin_12;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
-    
-	
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6|GPIO_Pin_7|GPIO_Pin_8;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOF, &GPIO_InitStructure);
-    
-    
-    /* USB_DISCONNECT used as USB pull-up */
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);  
+       
+    /* PC.7.8.9 FOR KEY */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7|GPIO_Pin_8|GPIO_Pin_9;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
     GPIO_Init(GPIOC, &GPIO_InitStructure);
-    
-    /* PB0,5,8,9输出 */
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_5|GPIO_Pin_8|GPIO_Pin_9;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;	//开漏输出
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;	//50M时钟速度
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
 	
-	/* PC5,7输出*/
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5|GPIO_Pin_7;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;	//开漏输出
+	/* PC10,11 LED1,LED2*/
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10|GPIO_Pin_11;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;	//开漏输出
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;	//50M时钟速度
 	GPIO_Init(GPIOC, &GPIO_InitStructure);
 	
-	/*PD7,输出*/
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;	//开漏输出
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;	//50M时钟速度
-	GPIO_Init(GPIOD, &GPIO_InitStructure);
+    GPIO_SetBits(GPIOD, GPIO_Pin_2);//预置为高
+	GPIO_SetBits(GPIOD, GPIO_Pin_6);
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_6 | GPIO_Pin_13;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
 	
-	/*PA8,输出*/
-//	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
-//	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;	//开漏输出
-//	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;	//50M时钟速度
-//	GPIO_Init(GPIOA, &GPIO_InitStructure);
-	
-	
-	/* PD3,4,5,6按键输入*/
-	GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5|GPIO_Pin_6;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;		//上拉输入
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;	//50M时钟速度
-	GPIO_Init(GPIOD, &GPIO_InitStructure);
 }
 /*******************************************************************************
 * Function Name  : PVD_config
@@ -256,11 +226,11 @@ void NVIC_Configuration(void)
 	NVIC_Init(&NVIC_InitStructure);
     
     //USB_Interrupts_Config
-    NVIC_InitStructure.NVIC_IRQChannel = USB_LP_CAN1_RX0_IRQn;
+/*    NVIC_InitStructure.NVIC_IRQChannel = USB_LP_CAN1_RX0_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-    NVIC_Init(&NVIC_InitStructure);
+    NVIC_Init(&NVIC_InitStructure);*/
     //SDIO_Interrupts_Config
     NVIC_InitStructure.NVIC_IRQChannel = SDIO_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;

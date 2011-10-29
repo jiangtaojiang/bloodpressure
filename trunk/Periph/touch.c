@@ -11,23 +11,9 @@
 #include "stm32f10x_conf.h"
 #include "usr.h"
 #include "touch.h"
-//#include "hal.h"
-
+#include "25f.h"
 #define NULL	0
-//定义SPI接口的状态,方便复用
-u8 Spi1_Mode=0;
-u8 Spi2_Mode=0;
 
-//硬件定义
-/**************************************************************
-SPI接口处于的状态的定义方便复用SPI接口
-***************************************************************/
-#define SPI1_MODE_SST25		1
-#define SPI1_MODE_SD		2
-
-#define SPI2_MODE_NET		1
-#define SPI2_MODE_TOUCH		2
-#define SPI2_MODE_LCD		3
 #define TOUCH_DESELECT()	GPIOB->BSRR=GPIO_Pin_0
 #define TOUCH_SELECT()  	GPIOB->BRR=GPIO_Pin_0 
 
@@ -184,9 +170,10 @@ void GetOneCoordinate(u8 no)
 	
 	TOUCH_SELECT();
 
-	__nop();
+	//__nop();
+    __NOP();
 	SPIByte(0xd0);
-	__nop();
+	__NOP();
 	tmp=SPIByte(0);
 	tmp<<=8;
 	tmp|=SPIByte(0);

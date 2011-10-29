@@ -4,34 +4,30 @@
 #ifndef TFTHAL_H
 #define TFTHAL_H
 
+//为了加快速度,这里采用直接操作寄存器的方式  
+#define RSTTFT_H	GPIOB->BSRR = GPIO_Pin_5
+#define RSTTFT_L	GPIOB->BRR=GPIO_Pin_5
+//背光开关
+#define BLIGHT_ON		GPIOC->BSRR=GPIO_Pin_6
+#define BLIGHT_OFF      GPIOC->BRR=GPIO_Pin_6
+//#define ST7781	    1
+#define ILI9331      1
+#define ILI9328      1
 
-/**************************************************************
-虚拟总线状态,只有读和写两种
-***************************************************************/
+/*A0=0  -- cmd*/
+#define LCD_Command  *((u16 * )0x60000000)
+/*A0=1 -- data*/
+#define LCD_Data  *((u16 * )0x60020000)
 
-#define SET_BUS_OUT		GPIOE->CRL=0x33333333	/*推挽输出50MHZ速度?*/
-#define SET_BUS_IN		GPIOE->CRL=0x44444444	/*浮空输入*/
-
-#define ST7781			1
-
-//TFT显示镜像定义
-#define TFT_TYPE	1		//1是一号,2是二号屏
-
-//触摸屏定义
-#define TOUCH_TYPE	2		//1是旧版,2是新版
 #ifdef TFTHAL_c
 void wr_cmd(u16 cmd);
 void wr_data(u16 dat);
 void lcd_initialize(void);
-void SetBusWrite(void);
-void SetBusRead(void);
 
 #else
 extern void TFT_Config(void);
 extern void wr_cmd(u16 cmd);
 extern void wr_data(u16 dat);
-extern void SetBusWrite(void);
-extern void SetBusRead(void);
 extern void lcd_initialize(void);
 
 

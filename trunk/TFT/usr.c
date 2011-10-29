@@ -35,7 +35,7 @@ void SetRTCBar(T_STRUCT* time)
 	SetEditTmp(&BAR_WIN_TIME_SECOND,time->sec);//秒
 	SetComboTmp(&BAR_WIN_TIME_DATE,time->date);//星期
 #ifdef DEBUG    
-    printf("%d年%d月%d日%d:%d:%d \r\n",time->year,time->month,time->day,time->hour,time->minute,time->sec);
+//    printf("20%d年%d月%d日%d:%d:%d \r\n",time->year,time->month,time->day,time->hour,time->minute,time->sec);
 #endif
 }
 
@@ -122,7 +122,7 @@ void UpdateAdc(void)
 	static u16 buf[10];
 	static u32 i=0;
 	
-	buf[i++]=TestAdc();
+//	buf[i++]=TestAdc();
 	if(i==10)
 	{
 		new_ad=DigitFilter(buf,10);

@@ -289,15 +289,35 @@ DX_WINDOW STU_WINDOW={
 #define EDIT_L				80
 #define EDIT_H				30
 
-#define ADC_X				30
+#define ADC_X				0
 #define ADC_Y				250
 #define ADC_L				80
 #define ADC_H				45
 
-#define ADC1_X				120
+#define ADC1_X				80
 #define ADC1_Y				250
 #define ADC1_L				80
 #define ADC1_H				45
+
+#define VBAT_X				160
+#define VBAT_Y				250
+#define VBAT_L				80
+#define VBAT_H				45
+
+#define SBP_X				116
+#define SBP_Y				45
+#define SBP_L				100
+#define SBP_H				58
+
+#define DBP_X				116
+#define DBP_Y				115
+#define DBP_L				100
+#define DBP_H				58
+
+#define PR_X				116
+#define PR_Y				185
+#define PR_L				100
+#define PR_H				58
 
 #define BUTTON_TOUCH_ADJ_X     	40
 #define BUTTON_TOUCH_ADJ_Y     	174
@@ -322,10 +342,10 @@ void MainWin(u8 param)
         TFTShowString16(16,30,"测量时间:",BLUE,0);
 		TFTShowString24(16,70,"收缩压",BLUE,0);
 		TFTShowString24(16,140,"舒张压",BLUE,0);
-		TFTShowString24(16,210,"测脉率",BLUE,0);
-        TFTShowString32(16+100,60,"777",BLUE,0);
-        TFTShowString32(16+100,130,"999",BLUE,0);
-        TFTShowString32(16+100,200,"888",BLUE,0);
+		TFTShowString24(16,210,"脉率",BLUE,0);
+//        TFTShowString32(16+100,60,"777",BLUE,0);
+//        TFTShowString32(16+100,130,"999",BLUE,0);
+//        TFTShowString32(16+100,200,"888",BLUE,0);
 //		TFTShowString24(50,250,"000",BLUE,0);
 //		TFTShowString16(0,64+8,"当前AD:",BLACK,0);
 
@@ -407,42 +427,7 @@ DX_CHECK MAIN_WIN_CHECK32={
 /*项目组*/		NULL,
 /*2D色*/		0,
 };
-//ADC show
-static EPRO  __ext_pro_adc;
-u8  __self_pro_adc;
-s32 __tmp_adc = 0;
-s32 Data_Edit_adc;		//此变量可外部引用
-DX_EDIT MAIN_WIN_ADC={
-/*坐标尺寸*/    ADC_X,ADC_Y,ADC_L,ADC_H,
-/*基础属性*/    BASE_PRO_EDIT|BASE_PRO_FONT24|BASE_PRO_EDIT_STYLE_NULL|BASE_PRO_EDIT_TYPE_0P|BASE_PRO_FORBID_FOCUS|BASE_PRO_EDIT_BCD_NULL,
-/*扩展属性*/    &__ext_pro_adc,
-/*父窗口_*/     &MAIN_WINDOW,
-/*响应函数*/    NULL,
-/*颜色*/		0,
-/*EDIT属性*/    &__self_pro_adc,
-/*临时值*/		&__tmp_adc,
-/*实际值*/		NULL,
-/*最大值*/		4096,
-/*最小值*/		0,
-};
-//ADC1 show
-static EPRO  __ext_pro_adc1;
-u8  __self_pro_adc1;
-s32 __tmp_adc1 = 0;
-s32 Data_Edit_adc;		//此变量可外部引用
-DX_EDIT MAIN_WIN_ADC1={
-/*坐标尺寸*/    ADC1_X,ADC1_Y,ADC1_L,ADC1_H,
-/*基础属性*/    BASE_PRO_EDIT|BASE_PRO_FONT24|BASE_PRO_EDIT_STYLE_NULL|BASE_PRO_EDIT_TYPE_0P|BASE_PRO_FORBID_FOCUS|BASE_PRO_EDIT_BCD_NULL,
-/*扩展属性*/    &__ext_pro_adc1,
-/*父窗口_*/     &MAIN_WINDOW,
-/*响应函数*/    NULL,
-/*颜色*/		0,
-/*EDIT属性*/    &__self_pro_adc1,
-/*临时值*/		&__tmp_adc1,
-/*实际值*/		NULL,
-/*最大值*/		4096,
-/*最小值*/		0,
-};
+
 //PROGRESS--显示AD
 u8 __ext_pro_progress;
 u8 __self_pro_progress;
@@ -577,14 +562,122 @@ DX_BUTTON MAIN_WIN_BUTTON_TOUCH_TEST={
 /*按键属性*/	&__self_pro_button_touch_test,
 /*字符串*/		"触摸测试",
 };
+//ADC show
+static EPRO  __ext_pro_adc;
+u8  __self_pro_adc;
+s32 __tmp_adc = 0;
+s32 Data_Edit_adc;		//此变量可外部引用
+DX_EDIT MAIN_WIN_ADC={
+/*坐标尺寸*/    ADC_X,ADC_Y,ADC_L,ADC_H,
+/*基础属性*/    BASE_PRO_EDIT|BASE_PRO_FONT24|BASE_PRO_EDIT_STYLE_NULL|BASE_PRO_EDIT_TYPE_0P|BASE_PRO_FORBID_FOCUS|BASE_PRO_EDIT_BCD_NULL,
+/*扩展属性*/    &__ext_pro_adc,
+/*父窗口_*/     &MAIN_WINDOW,
+/*响应函数*/    NULL,
+/*颜色*/		0,
+/*EDIT属性*/    &__self_pro_adc,
+/*临时值*/		&__tmp_adc,
+/*实际值*/		NULL,
+/*最大值*/		4096,
+/*最小值*/		0,
+};
+//ADC1 show
+static EPRO  __ext_pro_adc1;
+u8  __self_pro_adc1;
+s32 __tmp_adc1 = 0;
+s32 Data_Edit_adc1;		//此变量可外部引用
+DX_EDIT MAIN_WIN_ADC1={
+/*坐标尺寸*/    ADC1_X,ADC1_Y,ADC1_L,ADC1_H,
+/*基础属性*/    BASE_PRO_EDIT|BASE_PRO_FONT24|BASE_PRO_EDIT_STYLE_NULL|BASE_PRO_EDIT_TYPE_0P|BASE_PRO_FORBID_FOCUS|BASE_PRO_EDIT_BCD_NULL,
+/*扩展属性*/    &__ext_pro_adc1,
+/*父窗口_*/     &MAIN_WINDOW,
+/*响应函数*/    NULL,
+/*颜色*/		0,
+/*EDIT属性*/    &__self_pro_adc1,
+/*临时值*/		&__tmp_adc1,
+/*实际值*/		NULL,
+/*最大值*/		4096,
+/*最小值*/		0,
+};
+//VBAT show
+static EPRO  __ext_pro_vbat;
+u8  __self_pro_vbat;
+s32 __tmp_vbat = 0;
+s32 Data_Edit_vbat;		//此变量可外部引用
+DX_EDIT MAIN_WIN_VBAT={
+/*坐标尺寸*/    VBAT_X,VBAT_Y,VBAT_L,VBAT_H,
+/*基础属性*/    BASE_PRO_EDIT|BASE_PRO_FONT24|BASE_PRO_EDIT_STYLE_NULL|BASE_PRO_EDIT_TYPE_0P|BASE_PRO_FORBID_FOCUS|BASE_PRO_EDIT_BCD_NULL,
+/*扩展属性*/    &__ext_pro_vbat,
+/*父窗口_*/     &MAIN_WINDOW,
+/*响应函数*/    NULL,
+/*颜色*/		0,
+/*EDIT属性*/    &__self_pro_vbat,
+/*临时值*/		&__tmp_vbat,
+/*实际值*/		NULL,
+/*最大值*/		330,
+/*最小值*/		0,
+};
+//SBP show 收缩压
+static EPRO  __ext_pro_sbp;
+u8  __self_pro_sbp;
+s32 __tmp_sbp = 300;
+s32 Data_Edit_sbp;		//此变量可外部引用
+DX_EDIT MAIN_WIN_SBP={
+/*坐标尺寸*/    SBP_X,SBP_Y,SBP_L,SBP_H,
+/*基础属性*/    BASE_PRO_EDIT|BASE_PRO_FONT32|BASE_PRO_EDIT_STYLE_NULL|BASE_PRO_EDIT_TYPE_0P|BASE_PRO_FORBID_FOCUS|BASE_PRO_EDIT_BCD_NULL,
+/*扩展属性*/    &__ext_pro_sbp,
+/*父窗口_*/     &MAIN_WINDOW,
+/*响应函数*/    NULL,
+/*颜色*/		BLUE,
+/*EDIT属性*/    &__self_pro_sbp,
+/*临时值*/		&__tmp_sbp,
+/*实际值*/		NULL,
+/*最大值*/		300,
+/*最小值*/		0,
+};
+//DBP show 舒张压
+static EPRO  __ext_pro_dbp;
+u8  __self_pro_dbp;
+s32 __tmp_dbp = 200;
+s32 Data_Edit_dbp;		//此变量可外部引用
+DX_EDIT MAIN_WIN_DBP={
+/*坐标尺寸*/    DBP_X,DBP_Y,DBP_L,DBP_H,
+/*基础属性*/    BASE_PRO_EDIT|BASE_PRO_FONT32|BASE_PRO_EDIT_STYLE_NULL|BASE_PRO_EDIT_TYPE_0P|BASE_PRO_FORBID_FOCUS|BASE_PRO_EDIT_BCD_NULL,
+/*扩展属性*/    &__ext_pro_dbp,
+/*父窗口_*/     &MAIN_WINDOW,
+/*响应函数*/    NULL,
+/*颜色*/		BLUE,
+/*EDIT属性*/    &__self_pro_dbp,
+/*临时值*/		&__tmp_dbp,
+/*实际值*/		NULL,
+/*最大值*/		300,
+/*最小值*/		0,
+};
+//PR show 脉率
+static EPRO  __ext_pro_pr;
+u8  __self_pro_pr;
+s32 __tmp_pr = 100;
+s32 Data_Edit_pr;		//此变量可外部引用
+DX_EDIT MAIN_WIN_PR={
+/*坐标尺寸*/    PR_X,PR_Y,PR_L,PR_H,
+/*基础属性*/    BASE_PRO_EDIT|BASE_PRO_FONT32|BASE_PRO_EDIT_STYLE_NULL|BASE_PRO_EDIT_TYPE_0P|BASE_PRO_FORBID_FOCUS|BASE_PRO_EDIT_BCD_NULL,
+/*扩展属性*/    &__ext_pro_pr,
+/*父窗口_*/     &MAIN_WINDOW,
+/*响应函数*/    NULL,
+/*颜色*/		BLUE,
+/*EDIT属性*/    &__self_pro_pr,
+/*临时值*/		&__tmp_pr,
+/*实际值*/		NULL,
+/*最大值*/		180,
+/*最小值*/		0,
+};
 
 DX_WIDGET* const MAIN_WINDOW_CHILD[]={
     &(MAIN_WIN_ADC.widget),
     &(MAIN_WIN_ADC1.widget),
-//	&(MAIN_WIN_CHECK16.widget),
-//	&(MAIN_WIN_CHECK24.widget),
-//	&(MAIN_WIN_CHECK32.widget),
-//	&(MAIN_WIN_PROGRESS.widget),
+	&(MAIN_WIN_SBP.widget),
+	&(MAIN_WIN_DBP.widget),
+	&(MAIN_WIN_PR.widget),
+	&(MAIN_WIN_VBAT.widget),
 //	&(MAIN_WIN_CHECK_UDISK.widget),
 //	&(MAIN_WIN_CHECK_NET.widget),
 //	&(MAIN_WIN_BUTTON_LED.widget),
@@ -603,7 +696,7 @@ DX_WINDOW MAIN_WINDOW={
 	&__ext_pro_main_window,				//扩展属性
 	NULL,								// 所属父窗口
 	MainWin,
-	GRAY1,								//窗口背景色
+	WHITE,								//窗口背景色
 	MAIN_WINDOW_CHILD,					//子控件组
 	sizeof(MAIN_WINDOW_CHILD)/4,		//控件数
 	&__p_focus_no_main_window,			//焦点号

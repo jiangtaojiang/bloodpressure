@@ -436,7 +436,7 @@ static void __Draw(DX_EDIT* the_edit)
 		}
 		else if(__font_height==32)   
 		{
-			/*
+			
 			if((*(the_edit->widget.p_ext_property))&EXT_PRO_DISABLE)
 			{
 				TFTShowString32(x_str+1,y_str+1,str,COLOR_STRING_DISABLE1,0);
@@ -446,7 +446,7 @@ static void __Draw(DX_EDIT* the_edit)
 			{
 				TFTShowString32(x_str,y_str,str,__color_string,0);
 			}
-			*/
+			
 		}
 	}
 	//√‹¬Î

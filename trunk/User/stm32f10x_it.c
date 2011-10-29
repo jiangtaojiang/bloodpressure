@@ -24,6 +24,7 @@
 #include "stm32f10x_it.h"
 #include "stm32f10x_conf.h"
 #include "main.h"
+#include "common.h"
 //#include "usb_istr.h"
 //#include "usb_pwr.h"
 //#include "stm32_eval_sdio_sd.h"
@@ -186,13 +187,14 @@ void TIM2_IRQHandler (void)
     if( TIM2->SR & TIM_FLAG_Update )
     {
         TIM2->SR = ~ TIM_FLAG_Update;	 //clear updata flag
-        
+        msTicks++;
         ms_count++;
-        if(recont_flag == 1)
+ //       if(recont_flag == 1)
         {
-            if(ms_count == 10)
+            if(ms_count == 2)
             {
                 ms_count = 0;
+                ms10_flag = 1;
                 ms100++;
             }
         }
@@ -258,7 +260,12 @@ void USART3_IRQHandler(void)
 {
 	if(USART3->SR & USART_IT_RXNE) 
 	{	
-
+        USART3->SR &= ~USART_IT_RXNE;
+        rxdata = USART3->DR;
+        if(rxdata=='A')
+        {
+            start_flag = 1;
+        }
 	}
 
 	if(USART3->SR & USART_IT_TXE)

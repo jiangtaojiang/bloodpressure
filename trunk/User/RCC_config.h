@@ -18,6 +18,7 @@ void NVIC_Configuration(void);
 void Tim_Init(void);
 void PVD_config(void);
 void Systick_Configuration(void);
+void SysTickDelay(u16);
 #else
 extern void GPIO_Clock_config(void);
 extern void system_init(void);
@@ -26,4 +27,5 @@ extern void EXTI_Configuration(void);
 extern void NVIC_Configuration(void);
 extern void Tim_Init(void);
 extern void PVD_config(void);
+extern void SysTickDelay(u16);
 #endif
