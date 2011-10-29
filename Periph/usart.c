@@ -56,7 +56,7 @@ void Usart_Init(void)
  	 /* Enable DMA1 clock */
   	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
 	
-#ifdef DEBUG1
+#ifdef DEBUG
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);  //enable clock of usart3
 	
 	GPIO_InitStructure.GPIO_Pin =   GPIO_Pin_10;//Usart3_Tx
@@ -70,9 +70,10 @@ void Usart_Init(void)
 	GPIO_Init(GPIOB, &GPIO_InitStructure);	
 
 	Usart_Config(USART3,115200);
-	USART_Cmd(USART3, ENABLE);
+//	USART_Cmd(USART3, ENABLE);
 	USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
-	USART_ITConfig(USART3, USART_IT_TXE, DISABLE);	
+    USART_Cmd(USART3, ENABLE);
+//	USART_ITConfig(USART3, USART_IT_TXE, DISABLE);	
 #endif
 
 	/* Configure USART1 USART2 Tx as alternate function push-pull */
@@ -93,7 +94,7 @@ void Usart_Init(void)
 	USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
 	USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
 	
-    USART_DMACmd(USART2, USART_DMAReq_Tx, ENABLE);
+//    USART_DMACmd(USART2, USART_DMAReq_Tx, ENABLE);
 	/* Enable the USARTx */
 	USART_Cmd(USART1, ENABLE);
 	USART_Cmd(USART2, ENABLE);
@@ -176,6 +177,48 @@ void DMA_TxConfig(BYTE *BufferSRC, uint32_t BufferSize)
     //DMA_ITConfig(DMA1_Channel7, DMA_IT_TC, ENABLE); //配置传输完成中断
 }
 /*******************************************************************************
+* Function Name  : cm_out
+* Description    : cm_out采集器 输出一字节
+* Input          : none
+* Output         : None
+* Return         : none
+*******************************************************************************/
+void cm_out(unsigned char ch)
+{   
+	USART_SendData(cm_uart,ch);
+	while(USART_GetFlagStatus(cm_uart, USART_FLAG_TC) == RESET); 
+}
+/*******************************************************************************
+* Function Name  : xtcp_outb
+* Description    : xtcp_outb蓝牙输出一字节
+* Input          : none
+* Output         : None
+* Return         : none
+*******************************************************************************/
+void xtcp_outb(unsigned char ch)
+{	USART_SendData(bt_uart,ch);
+	while(USART_GetFlagStatus(bt_uart, USART_FLAG_TXE) == RESET); 
+#if DEBUG == 1
+	printf("%02x ",ch);
+#endif
+}
+/*******************************************************************************
+* Function Name  : xtcp_outs
+* Description    : xtcp_outs
+* Input          : none
+* Output         : None
+* Return         : none
+*******************************************************************************/
+void xtcp_outs(void *p,unsigned short len)
+{	unsigned char *ptr = (unsigned char *)p;
+	unsigned short i;
+	if(ptr)
+	{	for(i=0;i<len;i++)
+		{	xtcp_outb(ptr[i]);
+		}
+	}
+}
+/*******************************************************************************
 * Function Name  : USART2_Puts
 * Description    : USART2_Puts
 * Input          : none
@@ -191,4 +234,17 @@ void USART2_Puts(char * str)
         while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
     }
 
+}
+void USART3_Putc(unsigned char c)
+{
+    USART_SendData(USART3, c);
+    while(USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET );
+}
+void USART3_Puts(char *str,unsigned char len)
+{
+    u8 i;
+    for(i=0;i<len;i++)
+    {
+        USART3_Putc(str[i]);
+    }
 }

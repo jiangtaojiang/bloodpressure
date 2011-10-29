@@ -1,0 +1,49 @@
+/******************************************************************************
+* file Name     : 25f.h                                                                          
+* Data          : 2011-3-22                                              
+* Version       : Ver 1.0.0.0                                                                   
+* Programmer    : chen                                                                           
+* Updata        : chen   
+* brief         : 
+*******************************************************************************/
+#ifndef _25F_H
+#define _25F_H
+
+
+#define SPI1_MODE_SST25		1
+#define SPI1_MODE_SD		2
+
+#define SPI2_MODE_NET		1
+#define SPI2_MODE_TOUCH		2
+#define SPI2_MODE_LCD		3
+
+#ifdef  SST25f_c
+u8 Spi1_Mode;
+u8 Spi2_Mode;
+
+void FLASH_SPI_Config(void);
+void SST25ChipErase(void);							//È«Ë¢³ý
+void SST25SectorErase(u32 addr);						//ÉÈÇøË¢³ý
+void SST25Write(u32 addr,u8* p_data,u32 no);			//Ð´
+void SST25Read(u32 addr,u8* p_data,u32 no);			//¶Á
+void TestSst(void);
+void SPI1TurnToSST25(void);
+u16  SST25ReadID(void);
+void Spi2TurnToSST25(void);
+u8 	 SST25BY(void);
+#else
+extern u8 Spi1_Mode;
+extern u8 Spi2_Mode;
+extern void FLASH_SPI_Config(void);
+extern void SST25ChipErase(void);							//È«Ë¢³ý
+extern void SST25SectorErase(u32 addr);						//ÉÈÇøË¢³ý
+extern void SST25Write(u32 addr,u8* p_data,u32 no);			//Ð´
+extern void SST25Read(u32 addr,u8* p_data,u32 no);			//¶Á
+extern void TestSst(void);
+extern void SPI1TurnToSST25(void);
+extern u16 	SST25ReadID(void);
+extern void Spi2TurnToSST25(void);
+extern u8 	SST25BY(void);
+#endif
+
+#endif

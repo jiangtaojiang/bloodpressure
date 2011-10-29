@@ -31,7 +31,7 @@ typedef unsigned short	WCHAR;
 typedef long			LONG;
 typedef unsigned long	ULONG;
 typedef unsigned long	DWORD;
-
+typedef unsigned long   LWORD;
 #endif
 
 #endif

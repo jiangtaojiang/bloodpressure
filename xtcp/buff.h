@@ -1,16 +1,16 @@
 #ifndef __BUFF_H__
 #define __BUFF_H__
 
-
+#include "integer.h"
 #include <string.h>
 
 #define XTCP_DATA_SIZE 512
 #define COM_DATA_SIZE  512
 
 
-typedef unsigned short WORD;
-typedef unsigned long  LWORD;
-typedef unsigned char  BYTE;
+//typedef unsigned short WORD;
+//typedef unsigned long  LWORD;
+//typedef unsigned char  BYTE;
 
 /* Circular buffer structure */
 typedef struct

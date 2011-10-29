@@ -286,9 +286,8 @@
           <state>$PROJ_DIR$\TFT</state>
           <state>$PROJ_DIR$\fatfs</state>
           <state>$PROJ_DIR$\User</state>
-          <state>$PROJ_DIR$\ADC</state>
-          <state>$PROJ_DIR$\PWM</state>
-          <state>$PROJ_DIR$\HAL</state>
+          <state>$PROJ_DIR$\xtcp</state>
+          <state>$PROJ_DIR$\Periph</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -511,7 +510,7 @@
         <option>
           <name>OOCOutputFormat</name>
           <version>2</version>
-          <state>2</state>
+          <state>0</state>
         </option>
         <option>
           <name>OCOutputOverride</name>
@@ -519,7 +518,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>XY.bin</state>
+          <state></state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -527,7 +526,7 @@
         </option>
         <option>
           <name>OOCObjCopyEnable</name>
-          <state>1</state>
+          <state>0</state>
         </option>
       </data>
     </settings>
@@ -637,7 +636,7 @@
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>C:\Users\Administrator\Desktop\XY_V1.0.0.1\XY_V1.0.0.1\stm32f10x_flash.icf</state>
+          <state>F:\XY_V1.0.0.1\stm32f10x_flash.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
@@ -1588,12 +1587,6 @@
     </settings>
   </configuration>
   <group>
-    <name>ADC</name>
-    <file>
-      <name>$PROJ_DIR$\ADC\Stm32_ADC.c</name>
-    </file>
-  </group>
-  <group>
     <name>CMSIS</name>
     <file>
       <name>$PROJ_DIR$\Libraries\CMSIS\core_cm3.c</name>
@@ -1651,31 +1644,34 @@
     </file>
   </group>
   <group>
-    <name>HAL</name>
+    <name>PERIPH</name>
     <file>
-      <name>$PROJ_DIR$\HAL\25f.c</name>
+      <name>$PROJ_DIR$\Periph\24c256.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\HAL\touch.c</name>
+      <name>$PROJ_DIR$\Periph\25f.c</name>
     </file>
-  </group>
-  <group>
-    <name>PWM</name>
     <file>
-      <name>$PROJ_DIR$\PWM\Stm_Pwm.c</name>
+      <name>$PROJ_DIR$\Periph\Stm32_ADC.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Periph\Stm_Pwm.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Periph\touch.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Periph\usart.c</name>
     </file>
   </group>
   <group>
     <name>STARTUP</name>
     <file>
-      <name>$PROJ_DIR$\startup\iar\startup_stm32f10x_md.s</name>
+      <name>$PROJ_DIR$\startup\iar\startup_stm32f10x_hd.s</name>
     </file>
   </group>
   <group>
     <name>TFT</name>
-    <file>
-      <name>$PROJ_DIR$\TFT\BMP\bmp_data.c</name>
-    </file>
     <file>
       <name>$PROJ_DIR$\TFT\BUTTON.c</name>
     </file>
@@ -1723,10 +1719,7 @@
     </file>
   </group>
   <group>
-    <name>User</name>
-    <file>
-      <name>$PROJ_DIR$\User\hal.c</name>
-    </file>
+    <name>USER</name>
     <file>
       <name>$PROJ_DIR$\User\main.c</name>
     </file>
@@ -1739,8 +1732,17 @@
     <file>
       <name>$PROJ_DIR$\User\stm32f10x_it.c</name>
     </file>
+  </group>
+  <group>
+    <name>XTCP</name>
     <file>
-      <name>$PROJ_DIR$\User\usart.c</name>
+      <name>$PROJ_DIR$\xtcp\bt.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\xtcp\common.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\xtcp\xtcp.c</name>
     </file>
   </group>
 </project>

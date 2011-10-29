@@ -216,7 +216,7 @@ void GetRTCTime(T_STRUCT* time)
 	RTC_WaitForLastTask();
 	RTC_ITConfig(RTC_IT_SEC, ENABLE); //打开秒中断
 #ifdef DEBUG   
-	printf("%d年%d月%d日%d:%d:%d \r\n",time->year,time->month,time->day,time->hour,time->minute,time->sec);
+//	printf("%d年%d月%d日%d:%d:%d \r\n",time->year,time->month,time->day,time->hour,time->minute,time->sec);
 #endif
 }
 /***********************************
@@ -321,6 +321,13 @@ void RTC_Configuration(void)
 
 	return;
 }
+/*******************************************************************************
+* Function Name  : RTC_Config
+* Description    : RTC_Config
+* Input          : None
+* Output         : None
+* Return         : None
+*******************************************************************************/
 struct tm time_now;
 void RTC_Config(void)	
 {
@@ -328,26 +335,22 @@ void RTC_Config(void)
 	第一次上电或后备电源掉电后，该寄存器数据丢失，
 	表明RTC数据丢失，需要重新配置 */
     if(BKP_ReadBackupRegister(BKP_DR1) != 0xA5A5) //检查是否第一次上电或后备电池已经掉电，
-    {
-#ifdef DEBUG
-        printf("后备电池掉电或第一次上电，初始化RTC....\r\n");    
-#endif        
+    {       
+        Write_Log("Backup VBAT PowerDown or First time PowerUp,Initialize RTC\r\n");
         RTC_Configuration();
         BKP_WriteBackupRegister(BKP_DR1, 0xA5A5);
         
         time_now.tm_year = 2011;
-        time_now.tm_mon = 7; //月份表示为0~11
-        time_now.tm_mday = 17;
+        time_now.tm_mon = 10; //月份表示为0~11
+        time_now.tm_mday = 13;
         time_now.tm_hour = 13;
-        time_now.tm_min = 58;
+        time_now.tm_min = 16;
         time_now.tm_sec = 38;
         Time_SetCalendarTime(time_now);//设置初始时间
     } 
     else //若后备寄存器没有掉电，则无需重新配置RTC
     {
-#ifdef DEBUG
-          printf("后备电池未掉电，不对RTC进行配置....\r\n");    //这是上电复位
-#endif
+        Write_Log("Backup VBAT Keep, Don't RTC Configuralation\r\n");
                     //等待RTC与APB同步
   		RTC_WaitForSynchro();
 		RTC_WaitForLastTask();
@@ -357,32 +360,43 @@ void RTC_Config(void)
   		RTC_WaitForLastTask();
     }
       //这里我们可以利用RCC_GetFlagStatus()函数查看本次复位类型
-      if (RCC_GetFlagStatus(RCC_FLAG_PORRST) != RESET)
-      {
-		por_rst_flag = 1;		
-#ifdef DEBUG
-          printf("电源上电复位....\r\n");    //这是上电复位
-#endif
-      }
-      else if (RCC_GetFlagStatus(RCC_FLAG_PINRST) != RESET)
-      {
+    if (RCC_GetFlagStatus(RCC_FLAG_PORRST) != RESET)
+    {
+		por_rst_flag = 1;	
+        Write_Log("PowerUp Reset\r\n");
+    }
+    else if (RCC_GetFlagStatus(RCC_FLAG_PINRST) != RESET)
+    {
 		pin_rst_flag = 1;
-#ifdef DEBUG
-        printf("外部RST引脚复位....\r\n"); //这是外部RST管脚复位
-#endif
-      }
-      else if(PWR_GetFlagStatus(PWR_FLAG_WU)!= RESET)  //wakeup唤醒
-      {
-#ifdef DEBUG
-         printf("wakeup唤醒....\r\n"); //
-#endif        
-      }
-      if(PWR_GetFlagStatus(PWR_FLAG_SB) != RESET) //检查是否由待机模式下唤醒，如是则不需要配置RTC
+        Write_Log("pin Reset\r\n");
+    }
+    else if(PWR_GetFlagStatus(PWR_FLAG_WU)!= RESET)  //wakeup唤醒
+    {
+        Write_Log("WakeUp...\r\n");     
+    }
+    if(PWR_GetFlagStatus(PWR_FLAG_SB) != RESET) //检查是否由待机模式下唤醒，如是则不需要配置RTC
         /* System resumed from STANDBY mode */      
          /* Clear StandBy flag */
-      PWR_ClearFlag(PWR_FLAG_SB);
+    PWR_ClearFlag(PWR_FLAG_SB);
 
         //清除RCC中复位标志
-        RCC_ClearFlag();
+    RCC_ClearFlag();
 	return;
+}
+/*******************************************************************************
+* Function Name  : curr_time
+* Description    : curr_time
+* Input          : None
+* Output         : None
+* Return         : None
+*******************************************************************************/
+void curr_time(void)
+{
+	uint32_t curr_time = 0;
+	uint8_t ts[30] = {0};			
+	curr_time += (uint32_t)(RTC->CNTH)<<16;
+	curr_time +=  RTC->CNTL;
+	//strftime((char *)ts,30,"%Y-%m-%d  %H:%M:%S  :",localtime((time_t *)&curr_time));
+	strftime((char *)ts,30,"%H:%M:%S",localtime((time_t *)&curr_time));
+	printf("\r\n%s  ",ts); 	
 }

@@ -7,9 +7,9 @@ GUI部分,前部分为基础画函数,后部分为管理函数
 #include "TFTdriver.h"
 #include "font_data.h"
 #include "GuiDef.h"
-#include "hal.h"
+#include "main.h"
 #include "TFTHal.h"
-
+#include "RCC_config.h"
 COLOR BG_COLOR;	//全局的背景色,此变量是为了增加运行速度而设置的
 
 /**************************************************************
@@ -20,7 +20,7 @@ COLOR BG_COLOR;	//全局的背景色,此变量是为了增加运行速度而设置的
 void TFTFill(u16 color)
 {
 	u32 i,j;
-	SetBusWrite();
+//	SetBusWrite();
 #if (SSD1297==1)||(SSD1289==1)
 	wr_cmd(0x004e);
 	wr_data(0);
@@ -60,7 +60,7 @@ void TFTPoint(LOC_X x,LOC_Y y,COLOR color)
 {
 	CHECK_LOC(x,y);
 	//总线方向
-	SetBusWrite();
+//	SetBusWrite();
 #if (SSD1297==1)||(SSD1289==1)
 	wr_cmd(0x004e);
 	wr_data(x);
@@ -195,7 +195,7 @@ void TFTHLine(LOC_X x,LOC_Y y,u16 len,COLOR color)
 		len=MAX_X-x;
 	}
 	//总线方向
-	SetBusWrite();
+//	SetBusWrite();
 	//换为横向
 	SetTFTStyleH();
 #if (SSD1297==1)||(SSD1289==1)
@@ -242,7 +242,7 @@ void TFTVLine(LOC_X x,LOC_Y y,u16 len,COLOR color)
 		len=MAX_Y-y;
 	}
 	//总线方向
-	SetBusWrite();
+//	SetBusWrite();
 	//转为竖向
 	SetTFTStyleV();
 	//坐标
@@ -426,8 +426,11 @@ static void TFTShowHZ24(LOC_X x,LOC_Y y,u16 hz,COLOR color)
 }
 
 #elif FONT_HZ_TYPE==FONT_HZ_TYPE_FLASH
-
-extern void SST25Read(u32 addr,u8* p_data,u32 no);		//需要使用SST的读FLASH函数
+/**********************************************/
+//使用外部字库
+//需要使用SST的读FLASH函数
+/**********************************************/
+extern void SST25Read(u32 addr,u8* p_data,u32 no);		
 static void TFTShowHZ16(LOC_X x,LOC_Y y,u16 hz,COLOR color)
 {
 	u16 font_byte;
@@ -521,6 +524,7 @@ static void TFTShowHZ24(LOC_X x,LOC_Y y,u16 hz,COLOR color)
 	#error("Must set one hz type!")
 #endif
 //外部flash字库
+/*
 static void TFTShowASC1616(LOC_X x,LOC_Y y,u8 asc,COLOR color)
 {
     u32 addr;
@@ -552,11 +556,11 @@ static void TFTShowASC1616(LOC_X x,LOC_Y y,u8 asc,COLOR color)
 	for (i=0;i<16;i++)//16行
 	{
 		font_byte=*buf++;
-        /***********************************/
+        //-----------------------------------/
         temp1 = (font_byte>>8)&0x00ff;   //横向取模，字节倒序
         temp2 = (font_byte<<8)&0xff00;
         font_byte = temp1|temp2;
-        /***********************************/
+        //-----------------------------------/
 		TFTSetXY(x,y);
 		for (j=0;j<16;j++)//每行8个点
 		{
@@ -575,7 +579,7 @@ static void TFTShowASC1616(LOC_X x,LOC_Y y,u8 asc,COLOR color)
 		}
 		y++;
 	}
-}
+}*/
 //内部flash字库
 static void TFTShowASC816(LOC_X x,LOC_Y y,u8 asc,COLOR color)
 {
@@ -760,6 +764,7 @@ static void TFTShowASC1625(LOC_X x,LOC_Y y,u8 asc,COLOR color)
             y++;
 	}
 }
+/*
 static void TFTShowASC1224(LOC_X x,LOC_Y y,u8 asc,COLOR color)
 {
 	u16 font_byte;
@@ -802,7 +807,7 @@ static void TFTShowASC1224(LOC_X x,LOC_Y y,u8 asc,COLOR color)
 		}
 		y++;
 	}
-}
+}*/
 /**************************************************************
 ** 函数名:TFTShowString16/24 /P
 ** 功能:显示16/24点高度的字符串
@@ -817,7 +822,7 @@ void TFTShowString16(LOC_X x,LOC_Y y,char* str,COLOR color,u8 op)
 		Transparent=FALSE;
 	else
 		Transparent=TRUE;
-	SetBusWrite();//总线方向
+//	SetBusWrite();//总线方向
 	while ((*str != '\0'))
 	{
 		if ((*str <= 0x80) && (*str >= 0x20)) // ASCII	
@@ -890,7 +895,7 @@ void TFTShowString1624(LOC_X x,LOC_Y y,char* str,COLOR color,u8 op)
 		Transparent=FALSE;
 	else
 		Transparent=TRUE;
-	SetBusWrite();//总线方向
+//	SetBusWrite();//总线方向
 	while ((*str != '\0'))
 	{
 		if ((*str <= 0x80) && (*str >= 0x20)) // ASCII	
@@ -923,7 +928,7 @@ void TFTShowString24(LOC_X x,LOC_Y y,char* str,COLOR color,u8 op)
 		Transparent=FALSE;
 	else
 		Transparent=TRUE;
-	SetBusWrite();//总线方向
+//	SetBusWrite();//总线方向
 	while ((*str != '\0'))
 	{
 		if ((*str <= 0x80) && (*str >= 0x20)) // ASCII	
@@ -956,7 +961,7 @@ void TFTShowString32(LOC_X x,LOC_Y y,char* str,COLOR color,u8 op)
 		Transparent=FALSE;
 	else
 		Transparent=TRUE;
-	SetBusWrite();//总线方向
+//	SetBusWrite();//总线方向
 	while ((*str != '\0'))
 	{
 		if ((*str <= 0x80) && (*str >= 0x20)) // ASCII	
@@ -1035,5 +1040,4 @@ void Lcd_Init(void)
 	TFTFill(GRAY1);
 	SysTickDelay(200);
 */
-
 }
